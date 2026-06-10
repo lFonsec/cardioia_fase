@@ -30,10 +30,10 @@ def feedback_visual(risco):
     else:
         LED_VERDE.on()
 
-def classificar_local(temp, bpm):
-    if bpm > 140 or temp > 38:
+def classificar_local(temp, bpm, spo2):
+    if bpm > 140 or temp > 38 or spo2 < 90:
         return "Alto"
-    if bpm > 110 or temp > 37.2:
+    if bpm > 110 or temp > 37.2 or spo2 < 94:
         return "Moderado"
     return "Baixo"
 
@@ -41,15 +41,16 @@ while True:
     try:
         sensor.measure()
         temperatura = sensor.temperature()
+        umidade = sensor.humidity()
         bpm = mapear_bpm(pot.read())
-        risco_local = classificar_local(temperatura, bpm)
+        risco_local = classificar_local(temperatura, bpm, umidade)
         feedback_visual(risco_local)
 
         payload = {
             "patient_id": "paciente-wokwi",
             "temperatura": temperatura,
             "bpm": bpm,
-            "spo2": 98,
+            "spo2": round(umidade, 1),
             "origem": "esp32-micropython"
         }
         print("Leitura:", payload, "Risco local:", risco_local)
