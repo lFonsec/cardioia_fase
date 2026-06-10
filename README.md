@@ -70,27 +70,16 @@ O sistema simula:
 •	Feedback visual por LEDs
 ________________________________________
  
----
-config:
-  layout: elk
----
+```mermaid
 flowchart TB
-    A["Sensor DHT + Potenciômetro"] -- Leitura de dados --> B["ESP32 Wokwi"]
-    B -- Envio de dados --> C["FastAPI no Render"]
-    C -- Processa dados --> D["Classificação de Risco"]
-    D -- Armazena resultado --> E["API"]
-    E -- Retorna dados --> F["UI com Vercel"] & G["UI com Expo"]
+    A["Sensor DHT22 + Potenciômetro"] -->|Leitura de dados| B["ESP32 + MicroPython (Wokwi)"]
+    B -->|HTTP POST| C["Backend FastAPI (Render)"]
+    C -->|Processamento| D["Classificação de Risco"]
+    D -->|Resposta JSON| E["API REST"]
 
-     A:::sensor
-     B:::device
-     C:::backend
-     D:::logic
-     E:::api
-     F:::frontend
-     G:::frontend
-    classDef sensor stroke:#fb923c,fill:#fff7ed
-    classDef device stroke:#38bdf8,fill:#f0f9ff
-    classDef backend stroke:#a78bfa,fill:#f5f3ff
-    classDef logic stroke:#4ade80,fill:#f0fdf4
-    classDef api stroke:#2dd4bf,fill:#f0fdfa
-    classDef frontend stroke:#e879f9,fill:#fdf4ff
+    E -->|Consulta| F["Frontend React + Vercel"]
+    E -->|Consulta| G["Mobile Expo APK"]
+
+    F --> H["Dashboard CardioIA"]
+    G --> H
+```
