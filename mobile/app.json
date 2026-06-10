@@ -1,23 +1,31 @@
 {
   "expo": {
-    "name": "CardioIA",
-    "slug": "cardioia",
+    "name": "CardioIA Mobile",
+    "slug": "cardioia-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.lfonsec.cardioia"
+    },
     "android": {
-      "package": "br.com.cardioia.app",
-      "versionCode": 1,
-      "permissions": ["INTERNET"]
+      "backgroundColor": "#ffffff"
+    ,
+      "package": "com.lfonsec.cardioia"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "apiUrl": "https://SEU-BACKEND.onrender.com"
+      "eas": {
+        "projectId": "1705cdc6-3b3c-4226-b2cf-f56d0f0ec2ec"
+      }
     }
   }
 }
