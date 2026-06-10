@@ -3,8 +3,6 @@ import { createRoot } from 'react-dom/client';
 import { Activity, HeartPulse, Thermometer, ShieldAlert } from 'lucide-react';
 import './style.css';
 
-const API_URL = "https://cardioia-fase.onrender.com";
-
 function riskClass(risco) {
   return risco === 'Alto' ? 'alto' : risco === 'Moderado' ? 'moderado' : 'baixo';
 }
@@ -17,30 +15,41 @@ function App() {
   const [resultado, setResultado] = useState(null);
   const [leituras, setLeituras] = useState([]);
 
- async function analisar(payload = dados) {
-  try {
-    const resp = await fetch(`${API_URL}/api/sinais`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        patient_id: "paciente-web",
-        origem: "web",
-        ...payload
-      })
-    });
+  function analisar(payload = dados) {
+    const bpm = payload.bpm;
+    const temperatura = payload.temperatura;
+    const spo2 = payload.spo2;
 
-    const json = await resp.json();
-    setResultado(json);
-    carregarLeituras();
-  } catch (e) {
-    setResultado({
-      risco: "Offline",
-      recomendacao: "Backend Render indisponível."
-    });
+    let risco = 'Baixo';
+    let probabilidade = 0.12;
+    let recomendacao = 'Sinais estáveis. Manter acompanhamento preventivo.';
+
+    if (bpm > 140 || temperatura > 38 || spo2 < 90) {
+      risco = 'Alto';
+      probabilidade = 0.92;
+      recomendacao = 'Risco elevado. Recomenda-se avaliação clínica imediata.';
+    } else if (bpm > 110 || temperatura > 37.5 || spo2 < 94) {
+      risco = 'Moderado';
+      probabilidade = 0.58;
+      recomendacao = 'Atenção: sinais alterados. Monitorar o paciente.';
+    }
+
+    const saida = {
+      entrada: payload,
+      saida: {
+        risco,
+        probabilidade,
+        recomendacao,
+        timestamp: new Date().toLocaleString('pt-BR')
+      },
+      risco,
+      probabilidade,
+      recomendacao
+    };
+
+    setResultado(saida);
+    setLeituras(prev => [...prev, saida]);
   }
-}
 
   useEffect(() => {
     if (logado) analisar();
