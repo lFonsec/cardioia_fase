@@ -1,6 +1,3 @@
-# MicroPython - simulação ESP32/Wokwi CardioIA
-# Sensores simulados: DHT22 para temperatura e potenciômetro para BPM
-
 from machine import Pin, ADC
 import dht
 import time
@@ -19,7 +16,7 @@ sensor = dht.DHT22(Pin(DHT_PIN))
 pot = ADC(Pin(POT_PIN))
 pot.atten(ADC.ATTN_11DB)
 
-BACKEND_URL = "https://SEU-BACKEND.onrender.com/api/sinais"
+BACKEND_URL = "https://cardioia-fase.onrender.com"
 
 def mapear_bpm(valor_adc):
     return int(50 + (valor_adc / 4095) * 140)

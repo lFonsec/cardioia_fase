@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, Text, TextInput, Pressable, StyleSheet, ScrollView } from 'react-native';
-
+const API_URL = "https://cardioia-fase.onrender.com";
 
 export default function App() {
   const [logado, setLogado] = useState(false);
@@ -8,31 +8,31 @@ export default function App() {
   const [temperatura, setTemperatura] = useState('36.8');
   const [spo2, setSpo2] = useState('98');
   const [resultado, setResultado] = useState(null);
+  
+async function analisar() {
+  try {
+    const r = await fetch(`${API_URL}/api/sinais`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        patient_id: "paciente-mobile",
+        bpm: Number(bpm),
+        temperatura: Number(temperatura),
+        spo2: Number(spo2),
+        origem: "mobile"
+      })
+    });
 
-function analisar() {
-  const bpmNum = Number(bpm);
-  const tempNum = Number(temperatura);
-  const spo2Num = Number(spo2);
-
-  let risco = 'Baixo';
-  let probabilidade = 0.12;
-  let recomendacao = 'Sinais estáveis. Manter acompanhamento preventivo.';
-
-  if (bpmNum > 140 || tempNum > 38 || spo2Num < 90) {
-    risco = 'Alto';
-    probabilidade = 0.92;
-    recomendacao = 'Risco elevado. Recomenda-se avaliação clínica imediata.';
-  } else if (bpmNum > 110 || tempNum > 37.5 || spo2Num < 94) {
-    risco = 'Moderado';
-    probabilidade = 0.58;
-    recomendacao = 'Atenção: sinais alterados. Monitorar o paciente.';
+    const json = await r.json();
+    setResultado(json);
+  } catch (e) {
+    setResultado({
+      risco: "Offline",
+      recomendacao: "Não foi possível conectar ao backend Render."
+    });
   }
-
-  setResultado({
-    risco,
-    probabilidade,
-    recomendacao
-  });
 }
 
   if (!logado) return <SafeAreaView style={s.container}><View style={s.card}>
