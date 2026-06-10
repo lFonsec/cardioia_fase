@@ -1,3 +1,5 @@
 # Ignore Node.js dependencies
 node_modules/
 .venv/
+web/dist/assets/index-DI02octh.css
+web/dist/assets/index-BpOFj3cD.js
