@@ -5,26 +5,13 @@ https://cardioia-fase2.vercel.app/
 Deploy Automático (CI/CD)
 A aplicação Web foi publicada na Vercel integrada ao GitHub. Cada push realizado na branch principal 
 Configuração SPA
-Arquivo utilizado:
-{
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ]
-}
+
 ________________________________________
 Aplicação Mobile
 Build APK gerado pelo Expo EAS.
 Link do build:
-https://expo.dev/accounts/lfonsec/projects/cardioia-mobile/builds/bbc482f9-4b9a-4ede-946b-0ff049e1c6ec________________________________________
-Evidências de Deploy
-Deploy Web na Vercel
- 
-Aplicação Web em execução
- Build APK concluído
- 
+https://expo.dev/accounts/lfonsec/projects/cardioia-mobile/builds/bbc482f9-4b9a-4ede-946b-0ff049e1c6ec
+
  ________________________________________
 Instalação da Aplicação Mobile
 1.	Abrir o link do build Expo.
